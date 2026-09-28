@@ -1,0 +1,19 @@
+services:
+  zabbix-proxy:
+    image: zabbix/zabbix-proxy-sqlite3:alpine-6.4-latest
+    container_name: zabbix-proxy
+    environment:
+      ZBX_HOSTNAME: "Proxy-Kantor"          # harus sama dengan nama proxy di Zabbix Web
+      ZBX_SERVER_HOST: "IP-ZABBIX-SERVER"   # ganti dengan IP/domain Zabbix Server
+      ZBX_PROXYMODE: 0                      # 0 = active
+      ZBX_CONFIGFREQUENCY: 60
+      ZBX_PROXYOFFLINEBUFFER: 1             # simpan data yang belum terkirim maksimal 1 jam
+    restart: unless-stopped
+    network_mode: host
+    mem_limit: 128m
+    cpus: 0.3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
